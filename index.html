@@ -144,7 +144,7 @@ $(".artist").shuffleLetters({text:artist, fps:20});
 $(".song").shuffleLetters({text:song, fps:30});
 document.title = currentSong;
 
-$.getJSON(`https://itunes.apple.com/search?term==${artist.replace(/\W+/g, '%20')}&media=music&limit=1`, 
+$.getJSON(`https://itunes.apple.com/search?term==${artist.replace(/\W+/g, '+')}&media=music&limit=1`, 
 coverData => {
 const image = coverData.results[0]?.artworkUrl100.replace("100x100bb", "600x600bb") || "img/default.jpg";
 $(".images").append(`<img src="${image}" class="lazyload" alt="${currentSong}" />`).find(".lazyload").on("lazyloaded", function () { $(".bg img").remove();
