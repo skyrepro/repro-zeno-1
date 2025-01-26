@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<style type="text/css">
+circle{fill:none;stroke-width:1px;stroke:#ffffff;stroke-linecap:round;stroke-dasharray:33;animation:animate 1s linear infinite;transform-origin:center center}
+@keyframes animate{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
+</style>
+<circle cx="32" cy="32" r="31.5"/>
+</svg>

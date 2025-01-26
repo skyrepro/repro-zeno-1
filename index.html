@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#000010"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player para Zeno Radio</title>
+<meta name="description" content="Player para Zeno Radio"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Player para Zeno Radio"/>
+<meta property="og:url" content="tu url"/>
+<meta property="og:title" content="Player para Zeno Radio"/>
+<meta property="og:description" content="Player para Zeno Radio"/>
+<meta property="og:image" content="img/og-image.jpg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:image:width" content="600"/>
+<meta property="og:image:height" content="360"/>
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+<link rel="apple-touch-icon" href="img/favicon.ico"/>
+<link href="css/main.css" rel="stylesheet">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/lazysizes/lazysizes.min.js" async=""></script>
+</head>
+
+
+<body>
+<nav>
+<div class="nav">
+<a href="./"><img src="img/logo.png" alt="Player para Zeno Radio"/></a>
+<span class="hamburger"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="menu">
+<div class="price"><a href="#">Publicidad</a></div>
+<div class="app">
+<a href="https://apps.apple.com/app" target="_blank"><img src="img/apple.svg" alt="Descarga la aplicacion para iPhone"/></a>
+<a href="https://play.google.com/store/apps" target="_blank"><img  src="img/google.svg" alt="Descarga la aplicacion para Android"/></a>
+</div>
+<p><b>© Player para Zeno Radio</b> La mejor radio en vivo</p>
+<div class="social">
+<ul>
+<li><a href="https://www.facebook.com" target="facebook" rel="nofollow"><img src="img/facebook.svg"></a></li>
+<li><a href="https://www.youtube.com" target="youtube" rel="nofollow"><img src="img/youtube.svg"></a></li>
+<li><a href="https://www.instagram.com" target="instagram" rel="nofollow"><img src="img/instagram.svg"></a></li>
+<li><a href="https://www.x.com" target="X" rel="nofollow"><img src="img/x.svg"></a></li>
+<li><a href="https://wa.me" target="whatsapp" rel="nofollow"><img src="img/whatsapp.svg"></a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+
+<section>
+<a href="./"><img class="logo" src="img/logo.png" alt="Player para Zeno Radio"/></a>
+<div class="title">
+<div class="placeholder">
+<span class="artist">Artista</span>
+<span class="song">Tema</span>
+</div>
+</div>
+
+<div class="cd"><div class="images"><img class="lazyload" src="img/default.jpg" alt="cover o portada"/></div></div>
+<div class="cent"><a href="https://paypal.com" target="_blank" rel="nofollow">Donar</a></div>
+
+<div class="controls">
+<ul class="cols controls">
+<li>
+<div onclick="PLAYPAUSE()" class="play">
+<div class="loading"><img src="img/loading.svg" alt=""/></div>
+<img src="img/play.svg" alt="">
+<img src="img/stop.svg" alt="">
+</div>
+</li>
+<li>
+<div class="volume">
+<ul class="cols">
+<li><img src="img/volume0.svg" alt=""></li>
+<li><input type="range" id="volume" min="0" max="100" value="90"></li>
+<li><img src="img/volume100.svg" alt=""></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+
+<div class="bg"><img class="lazyload" src="img/default.jpg" alt=""/></div>
+<div class="eq"><img class="lazyload" src="img/eq.svg" alt=""/></div>
+</section>
+
+
+
+
+
+
+<footer>
+<div class="price"><a href="#">Publicidad</a></div>
+<div class="app">
+<a href="https://apps.apple.com/app" target="_blank"><img src="img/apple.svg" alt="Descarga la aplicacion para iPhone"/></a>
+<a href="https://play.google.com/store/apps" target="_blank"><img  src="img/google.svg" alt="Descarga la aplicacion para Android"/></a>
+</div>
+<p><b>© Player para Zeno Radio</b> La mejor radio en vivo</p>
+<div class="social">
+<ul>
+<li><a href="https://www.facebook.com" target="facebook" rel="nofollow"><img src="img/facebook.svg"></a></li>
+<li><a href="https://www.youtube.com" target="youtube" rel="nofollow"><img src="img/youtube.svg"></a></li>
+<li><a href="https://www.instagram.com" target="instagram" rel="nofollow"><img src="img/instagram.svg"></a></li>
+<li><a href="https://www.x.com" target="X" rel="nofollow"><img src="img/x.svg"></a></li>
+<li><a href="https://wa.me" target="whatsapp" rel="nofollow"><img src="img/whatsapp.svg"></a></li>
+</ul>
+</div>
+</footer>
+
+<span class="close"></span>
+<div class="popup">
+<img class="price" src="https://i.imgur.com/7K6szT9.jpeg" alt="Publicidad"/>
+</div>
+
+
+<script>
+const stream = "https://stream.zeno.fm/l769oej8epkvv.aac";
+const idzeno = "l769oej8epkvv";
+
+// Reproductor
+window.onload = () => audio.play();
+const audio = new Audio(stream);
+const PLAYPAUSE = () => audio.paused ? (audio.load(), audio.play()) : audio.pause();
+
+audio.onplay  = () => $(".loading, .eq, .play").addClass("on");
+audio.onpause = () => $(".loading, .eq, .play").removeClass("on");
+audio.onerror = () => alert("Radio sin seno falta de pago.");
+$("#volume").on("input", function () {audio.volume = this.value / 100;});
+
+
+
+// Metadata y Cover
+let songNow = "";
+function fetchMetadata() {
+$.getJSON(`https://zenoplay.zenomedia.com/api/zenofm/nowplaying/${idzeno}?ra=${Math.random()}`, 
+data => {
+const currentSong = data.title || "Error de Api - revise los datos";
+if (currentSong === songNow) return;
+songNow = currentSong;
+
+const [artist, song] = currentSong.split(" - ");
+$(".artist").shuffleLetters({text:artist, fps:20});
+$(".song").shuffleLetters({text:song, fps:30});
+document.title = currentSong;
+
+$.getJSON(`https://itunes.apple.com/search?term==${artist.replace(/\W+/g, '%20')}&media=music&limit=1`, 
+coverData => {
+const image = coverData.results[0]?.artworkUrl100.replace("100x100bb", "600x600bb") || "img/default.jpg";
+$(".images").append(`<img src="${image}" class="lazyload" alt="${currentSong}" />`).find(".lazyload").on("lazyloaded", function () { $(".bg img").remove();
+$(".bg").append(`<img src="${image}" class="lazyload" alt="" />`);
+$(".images").css({ transition: "all 1s", transform: "translateX(-100%)" });
+setTimeout(() => $(".images").removeAttr("style").find("img:first-child").remove(), 1500)});
+});
+
+});
+}
+
+fetchMetadata();
+setInterval(fetchMetadata, 5000);
+
+
+
+// Menu y popup
+$("span.hamburger").click(() => $("span.hamburger, nav, body").toggleClass("on off"));
+$(".price a").click(e => { e.preventDefault();
+$(".popup, .close").addClass("on").end().addClass("off");
+});
+$(".close").click(() => $(".popup, .close").removeClass("on"));
+
+
+
+// Efecto Letras
+!function(t){t.fn.shuffleLetters=function(n){var a=t.extend({step:8,fps:25,text:"",callback:function(){}},n);return this.each(function(){var n=t(this),r="";if(n.data("animated"))return!0;n.data("animated",!0),r=a.text?a.text.split(""):n.text().split("");for(var i=[],s=[],f=0;f<r.length;f++){var l=r[f];if(" "==l){i[f]="space";continue}/[a-z]/.test(l)?i[f]="lowerLetter":/[A-Z]/.test(l)?i[f]="upperLetter":i[f]="symbol",s.push(f)}n.html(""),function t(f){var l,o=s.length,u=r.slice(0);if(f>o){n.data("animated",!1),a.callback(n);return}for(l=Math.max(f,0);l<o;l++)l<f+a.step?u[s[l]]=e(i[s[l]]):u[s[l]]="";n.text(u.join("")),setTimeout(function(){t(f+1)},1e3/a.fps)}(-a.step)})};function e(t){var e="";"lowerLetter"==t?e="abcdefghijklmnopqrstuvwxyz0123456789":"upperLetter"==t?e="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789":"symbol"==t&&(e=",.?/\\(^)![]{}*&^%$#'\"");var n=e.split("");return n[Math.floor(Math.random()*n.length)]}}(jQuery);
+</script>
+</body>
+</html>
